@@ -51,3 +51,15 @@ export const deleteStudent = ('/:id', (req, res)=>{
     writeOnFile(newJsonFile)
     res.send(console.log(`Student with id = ${id} has been deleted`))
 })
+
+//EDIT (PUT)
+
+export const editStudent = ('/:id', (req, res)=>{
+    const {id} = req.params
+    let editStudent = req.body
+    editStudent={id:id, ...editStudent}
+    let newJsonFile = jsonFile.filter(user=>user.id!==id)
+    newJsonFile.push(editStudent)
+    writeOnFile(newJsonFile)
+    res.send(console.log(`Student with id = ${id} has been edited`))
+})
