@@ -3,6 +3,8 @@ import './Main_Styles/LandingPage.scss'
 import {Form, Button} from 'react-bootstrap'
 
 export default class LandingPage extends PureComponent {
+    url='http://localhost:5000/students'
+    
     state={
         student:{
             name:'',
@@ -18,6 +20,17 @@ export default class LandingPage extends PureComponent {
         newStudent[currentId]=e.currentTarget.value
         this.setState({student: newStudent})
     }
+
+    getList = async ()=>{
+        let response = await fetch(this.url)
+        let result = await response.json()
+        console.log(result)
+    }
+
+    componentDidMount(){
+        this.getList()
+    }
+
 
     render() {
         return (
