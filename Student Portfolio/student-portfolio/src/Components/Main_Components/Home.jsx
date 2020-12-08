@@ -9,12 +9,12 @@ export default class Home extends PureComponent {
         list:[],
         info:{},
         studentInfo:{
-            name:'',
-            surname: '',
-            email:'',
-            birth:'',
-            password:'',
-            id:''
+            "name":"",
+            "surname": "",
+            "email":"",
+            "birth":"",
+            "password":"",
+            "id":""
         },
         displayModal:true
     }
@@ -45,6 +45,7 @@ export default class Home extends PureComponent {
         })
         let result =await response.json()
         this.setState({studentInfo:result})
+        console.log(this.state.studentInfo)
     }
 
     fetchDelete=async(url, id)=>{
@@ -73,6 +74,7 @@ export default class Home extends PureComponent {
     editBtn=(url, id, newObj)=>{
         this.fetchPut(url, id, newObj)
         this.setState({displayModal: !this.state.displayModal})
+        
     }
 
 
