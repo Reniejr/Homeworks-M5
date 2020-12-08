@@ -54,7 +54,8 @@ export default class Home extends PureComponent {
         this.setState({studentInfo: newStudent})
     }
 
-    editBtn= async()=>{
+    editBtn= async(e)=>{
+        e.preventDefault()
         let response = await fetch(this.url+`/${this.state.studentInfo.id}`,{
             method:'PUT',
             body: JSON.stringify(this.state.studentInfo),
@@ -87,7 +88,7 @@ export default class Home extends PureComponent {
                     </Modal.Header>
 
                     <Modal.Body>
-                    <Form onSubmit={this.editBtn}>
+                    <Form onSubmit={(e)=>this.editBtn(e)}>
                     <Form.Group>
                         <Form.Label htmlFor='name'>Name</Form.Label>
                         <Form.Control 
