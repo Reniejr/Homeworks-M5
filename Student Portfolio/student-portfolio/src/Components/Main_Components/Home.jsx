@@ -34,18 +34,18 @@ export default class Home extends PureComponent {
         console.log(result)
     }
 
-    fetchPut= async(url, id, newObj)=>{
+    fetchPut = async (url, id, newObj) => {
         let response = await fetch(url+`/${id}`,{
             method:'PUT',
             body: JSON.stringify(newObj),
             headers: new Headers({
-                "Content-type" : "application/json"
+                "Content-Type" : "application/json"
             })
 
         })
-        let result =await response.json()
+        let result = await response.json();
         this.setState({studentInfo:result})
-        console.log(this.state.studentInfo)
+        console.log(result)
     }
 
     fetchDelete=async(url, id)=>{
