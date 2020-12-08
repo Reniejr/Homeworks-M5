@@ -10,3 +10,11 @@ const studentsPath = path.join(__dirname, './src/Data/students.json')
 const readPath = fs.readFileSync(studentsPath)
 const stringFile = readPath.toString()
 const jsonFile = JSON.parse(stringFile)
+
+//METHODS
+
+//GET
+
+export const getList = ('/', (req, res)=>{
+    res.send(jsonFile)
+})
