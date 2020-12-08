@@ -3,6 +3,37 @@ import './Sub_Styles/Registration.scss'
 import {Form, Button} from 'react-bootstrap'
 
 export default class Registration extends PureComponent {
+    url='http://localhost:5000/students'
+    
+    state={
+        student:{
+            name:'',
+            surname: '',
+            email:'',
+            birth:''
+        }
+    }
+
+    fillUp=(e)=>{
+        let newStudent={...this.state.student}
+        let currentId = e.currentTarget.id
+        newStudent[currentId]=e.currentTarget.value
+        this.setState({student: newStudent})
+    }
+
+    registerStudent = async (e)=>{
+        e.preventDefault()
+        let response = await fetch(this.url, {
+            method:'POST',
+            body:JSON.stringify(this.state.student),
+            headers: new Headers({
+                "Content-type":"application/json"
+            })
+        })
+        let result = await response.json()
+        console.log(result)
+    }
+
     render() {
         return (
             <div id='registration'>
@@ -41,12 +72,22 @@ export default class Registration extends PureComponent {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label htmlFor='birth'>Name</Form.Label>
+                        <Form.Label htmlFor='birth'>Birth</Form.Label>
                         <Form.Control 
                         required
                         id='birth'
                         name='birth'
                         type="date"
+                        onChange={this.fillUp}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor='password'>Password</Form.Label>
+                        <Form.Control 
+                        required
+                        id='password'
+                        name='password'
+                        type="password"
                         onChange={this.fillUp}
                         />
                     </Form.Group>

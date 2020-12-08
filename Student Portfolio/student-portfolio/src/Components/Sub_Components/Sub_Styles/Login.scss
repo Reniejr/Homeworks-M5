@@ -1,0 +1,30 @@
+#login {
+  border-radius: 5px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5%;
+  overflow: hidden;
+  transition: width 1s ease;
+  .close {
+    position: relative;
+    right: 0;
+    color: white;
+  }
+  form {
+    margin-top: 1rem;
+    .form-group {
+      input {
+        background-color: transparent;
+        color: white;
+      }
+    }
+    button {
+      background-color: transparent;
+    }
+  }
+  a {
+    color: white;
+  }
+}

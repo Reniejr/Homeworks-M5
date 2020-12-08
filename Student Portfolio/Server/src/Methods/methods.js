@@ -47,8 +47,8 @@ export const getById = ('/:id', (req, res)=>{
 
 export const createStudent = ('/', (req, res)=>{
     let newStudent = req.body
-    let check = jsonFile.filter(student=>student.name===newStudent.name)
-    check.length>0? res.send(console.log('Error: There is another student with that name')) : postFunction(newStudent, jsonFile, res)
+    let check = jsonFile.filter(student=>student.email===newStudent.email)
+    check.length>0? res.send(console.log('Error: There is another student with that Email')) : postFunction(newStudent, jsonFile, res)
     // res.send(console.log(`New Student with id = ${newStudent.id} has been created`))
 
     
