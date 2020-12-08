@@ -9,7 +9,7 @@ const __dirname = path.resolve()
 const studentsPath = path.join(__dirname, './src/Data/students.json')
 const readPath = fs.readFileSync(studentsPath)
 const stringFile = readPath.toString()
-const jsonFile = JSON.parse(stringFile)
+let jsonFile = JSON.parse(stringFile)
 
 //METHODS
 
@@ -17,4 +17,12 @@ const jsonFile = JSON.parse(stringFile)
 
 export const getList = ('/', (req, res)=>{
     res.send(jsonFile)
+})
+
+//GET by ID
+
+export const getById = ('/:id', (req, res)=>{
+    const {id} = req.params
+    const searchedStudent = jsonFile.filter(user=>user.id===id)
+    res.send(searchedStudent)
 })
