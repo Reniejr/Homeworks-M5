@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import './Main_Styles/Home.scss'
 
 export default class Home extends PureComponent {
     url='http://localhost:5000/students'
@@ -22,10 +23,23 @@ export default class Home extends PureComponent {
         console.log(result)
     }
 
+    deleteStudent = async (id)=>{
+        let response = await fetch(this.url+`/${id}`,{
+            method:'DELETE'
+        })
+        let result= await response.json()
+        console.log(`Student with id = ${id} has been deleted`, result)
+        this.getList()
+
+    }
+
     componentDidMount(){
         this.getList()
         this.getInfo()
-        
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.list !== this.state.list){}
     }
 
     render() {
@@ -69,6 +83,8 @@ export default class Home extends PureComponent {
                                 <td>{student.birth}</td>
                                 <td>{student.email}</td>
                                 <td>{student.id}</td>
+                                <button>Edit</button>
+                                <button onClick={()=>this.deleteStudent(student.id)}>Delete</button>
                             </tr>
 
                             )
