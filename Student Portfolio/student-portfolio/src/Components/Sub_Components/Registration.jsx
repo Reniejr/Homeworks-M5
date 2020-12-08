@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import './Sub_Styles/Registration.scss'
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Alert} from 'react-bootstrap'
 
 export default class Registration extends PureComponent {
     url='http://localhost:5000/students'
@@ -11,7 +11,16 @@ export default class Registration extends PureComponent {
             surname: '',
             email:'',
             birth:''
-        }
+        },
+        list:[],
+        alert:true
+    }
+
+    getList = async ()=>{
+        let response = await fetch(this.url)
+        let result = await response.json()
+        this.setState({list:result})
+        console.log(result)
     }
 
     fillUp=(e)=>{
@@ -21,8 +30,7 @@ export default class Registration extends PureComponent {
         this.setState({student: newStudent})
     }
 
-    registerStudent = async (e)=>{
-        e.preventDefault()
+    postStudent=async()=>{
         let response = await fetch(this.url, {
             method:'POST',
             body:JSON.stringify(this.state.student),
@@ -34,9 +42,27 @@ export default class Registration extends PureComponent {
         console.log(result)
     }
 
+    registerStudent = (e)=>{
+        e.preventDefault()
+        let filtered= this.state.list.filter(student=>student.email===this.state.student.email)
+        console.log(filtered)
+        filtered.length>0? this.setState({alert: false}) : this.postStudent()
+    }
+
+    componentDidMount(){
+        this.getList()
+    }
+
     render() {
         return (
             <div id='registration'>
+                <Alert 
+                variant='danger'
+                style={{
+                    display: this.state.alert?'none':'block'
+                }}
+                >Another Student has registered with same email
+                </Alert>
                 <Form onSubmit={this.registerStudent}>
                     <Form.Group>
                         <Form.Label htmlFor='name'>Name</Form.Label>
