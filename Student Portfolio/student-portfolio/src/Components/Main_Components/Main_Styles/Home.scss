@@ -7,4 +7,11 @@
       border: 1px solid black;
     }
   }
+  .modal-dialog {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

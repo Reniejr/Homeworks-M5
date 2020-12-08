@@ -1,12 +1,22 @@
 import React, { PureComponent } from 'react'
 import './Main_Styles/Home.scss'
+import {Modal, Button, Form} from 'react-bootstrap'
 
 export default class Home extends PureComponent {
     url='http://localhost:5000/students'
 
     state={
         list:[],
-        info:{}
+        info:{},
+        studentInfo:{
+            name:'',
+            surname: '',
+            email:'',
+            birth:'',
+            password:'',
+            id:''
+        },
+        displayModal:true
     }
 
     getList = async ()=>{
@@ -33,6 +43,31 @@ export default class Home extends PureComponent {
 
     }
 
+    passInfo = (infos)=>{
+        this.setState({studentInfo: infos, displayModal: !this.state.displayModal})
+    }
+
+    fillUp=(e)=>{
+        let newStudent={...this.state.studentInfo}
+        let currentId = e.currentTarget.id
+        newStudent[currentId]=e.currentTarget.value
+        this.setState({studentInfo: newStudent})
+    }
+
+    editBtn= async()=>{
+        let response = await fetch(this.url+`/${this.state.studentInfo.id}`,{
+            method:'PUT',
+            body: JSON.stringify(this.state.studentInfo),
+            headers: new Headers({
+                "Content-type" : "application/json"
+            })
+
+        })
+        let result =await response.json()
+        this.setState({displayModal: !this.state.displayModal})
+    }
+
+
     componentDidMount(){
         this.getList()
         this.getInfo()
@@ -46,6 +81,77 @@ export default class Home extends PureComponent {
         console.log(this.props)
         return (
             <div id='home'>
+                <Modal.Dialog style={{display:this.state.displayModal?'none':'block'}}>
+                    <Modal.Header closeButton onClick={()=>this.setState({displayModal: !this.state.displayModal})}>
+                        <Modal.Title>Modal title</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                    <Form onSubmit={this.editBtn}>
+                    <Form.Group>
+                        <Form.Label htmlFor='name'>Name</Form.Label>
+                        <Form.Control 
+                        required
+                        id='name'
+                        name='name'
+                        type="text" 
+                        placeholder="Enter Name" 
+                        onChange={this.fillUp}
+                        value={this.state.studentInfo.name}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor='surname'>Surname</Form.Label>
+                        <Form.Control 
+                        required
+                        id='surname'
+                        name='surname'
+                        type="text" 
+                        placeholder="Enter Surname" 
+                        onChange={this.fillUp}
+                        value={this.state.studentInfo.surname}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor='Email'>Email</Form.Label>
+                        <Form.Control 
+                        required
+                        id='email'
+                        name='email'
+                        type="email" 
+                        placeholder="Enter Email" 
+                        onChange={this.fillUp}
+                        value={this.state.studentInfo.email}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor='birth'>Birth</Form.Label>
+                        <Form.Control 
+                        required
+                        id='birth'
+                        name='birth'
+                        type="date"
+                        onChange={this.fillUp}
+                        value={this.state.studentInfo.birth}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor='password'>Password</Form.Label>
+                        <Form.Control 
+                        required
+                        id='password'
+                        name='password'
+                        type="password"
+                        onChange={this.fillUp}
+                        value={this.state.studentInfo.password}
+                        />
+                    </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Edit
+                        </Button>
+                    </Form>
+                    </Modal.Body>
+                </Modal.Dialog>
                 <div className="personal-info">
                     <h2>Personal Infos</h2>
                     <table>
@@ -83,7 +189,7 @@ export default class Home extends PureComponent {
                                 <td>{student.birth}</td>
                                 <td>{student.email}</td>
                                 <td>{student.id}</td>
-                                <button>Edit</button>
+                                <button onClick={()=>this.passInfo(student)}>Edit</button>
                                 <button onClick={()=>this.deleteStudent(student.id)}>Delete</button>
                             </tr>
 
