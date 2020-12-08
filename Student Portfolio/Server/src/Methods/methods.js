@@ -42,3 +42,12 @@ export const createStudent = ('/', (req, res)=>{
     writeOnFile(jsonFile)
     res.send(console.log(`New Student with id = ${newStudent.id} has been created`))
 })
+
+//DELETE
+
+export const deleteStudent = ('/:id', (req, res)=>{
+    const {id} = req.params
+    const newJsonFile = jsonFile.filter(user=>user.id!==id)
+    writeOnFile(newJsonFile)
+    res.send(console.log(`Student with id = ${id} has been deleted`))
+})
