@@ -19,28 +19,44 @@ export default class Home extends PureComponent {
         displayModal:true
     }
 
-    getList = async ()=>{
-        let response = await fetch(this.url)
+    fetchGet = async (url)=>{
+
+        let response = await fetch(url)
         let result = await response.json()
         this.setState({list:result})
         console.log(result)
     }
 
-    getInfo = async ()=>{
-        let response = await fetch(this.url+`/${this.props.match.params.id}`)
+    fetchGetSingle = async (url, id)=>{
+        let response = await fetch(url+`/${id}`)
         let result = await response.json()
         this.setState({info:result[0]})
         console.log(result)
     }
 
-    deleteStudent = async (id)=>{
-        let response = await fetch(this.url+`/${id}`,{
+    fetchPut= async(url, id, newObj)=>{
+        let response = await fetch(url+`/${id}`,{
+            method:'PUT',
+            body: JSON.stringify(newObj),
+            headers: new Headers({
+                "Content-type" : "application/json"
+            })
+
+        })
+        let result =await response.json()
+        this.setState({studentInfo:result})
+    }
+
+    fetchDelete=async(url, id)=>{
+        let response = await fetch(url+`/${id}`,{
             method:'DELETE'
         })
         let result= await response.json()
         console.log(`Student with id = ${id} has been deleted`, result)
-        this.getList()
+    }
 
+    deleteStudent =(url, id)=>{
+        this.fetchDelete(url, id)
     }
 
     passInfo = (infos)=>{
@@ -54,32 +70,24 @@ export default class Home extends PureComponent {
         this.setState({studentInfo: newStudent})
     }
 
-    editBtn= async(e)=>{
-        e.preventDefault()
-        let response = await fetch(this.url+`/${this.state.studentInfo.id}`,{
-            method:'PUT',
-            body: JSON.stringify(this.state.studentInfo),
-            headers: new Headers({
-                "Content-type" : "application/json"
-            })
-
-        })
-        let result =await response.json()
+    editBtn=(url, id, newObj)=>{
+        this.fetchPut(url, id, newObj)
         this.setState({displayModal: !this.state.displayModal})
     }
 
 
     componentDidMount(){
-        this.getList()
-        this.getInfo()
+        this.fetchGet(this.url)
+        this.fetchGetSingle(this.url, this.props.match.params.id)
     }
 
     componentDidUpdate(prevProps, prevState){
-        if(prevState.list !== this.state.list){}
+        if(prevState.list !== this.state.list){
+            console.log(this.state.list)
+        }
     }
 
     render() {
-        console.log(this.props)
         return (
             <div id='home'>
                 <Modal.Dialog style={{display:this.state.displayModal?'none':'block'}}>
@@ -88,7 +96,7 @@ export default class Home extends PureComponent {
                     </Modal.Header>
 
                     <Modal.Body>
-                    <Form onSubmit={(e)=>this.editBtn(e)}>
+                    <Form>
                     <Form.Group>
                         <Form.Label htmlFor='name'>Name</Form.Label>
                         <Form.Control 
@@ -147,7 +155,7 @@ export default class Home extends PureComponent {
                         value={this.state.studentInfo.password}
                         />
                     </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" onClick={()=>this.editBtn(this.url, this.state.studentInfo.id, this.state.studentInfo)}>
                             Edit
                         </Button>
                     </Form>
@@ -191,7 +199,7 @@ export default class Home extends PureComponent {
                                 <td>{student.email}</td>
                                 <td>{student.id}</td>
                                 <button onClick={()=>this.passInfo(student)}>Edit</button>
-                                <button onClick={()=>this.deleteStudent(student.id)}>Delete</button>
+                                <button onClick={()=>this.deleteStudent(this.url, student.id)}>Delete</button>
                             </tr>
 
                             )
