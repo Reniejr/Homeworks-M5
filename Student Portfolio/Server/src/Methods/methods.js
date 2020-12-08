@@ -1,6 +1,7 @@
 import {v4 as uniqueId} from 'uuid'
 import fs from 'fs'
 import path from 'path'
+import { json } from 'express'
 
 const createId = uniqueId()
 
@@ -15,6 +16,15 @@ let jsonFile = JSON.parse(stringFile)
 
 const writeOnFile = (array)=>{
    return fs.writeFileSync(studentsPath, JSON.stringify(array))
+}
+
+//POST FUNCTION
+
+const postFunction = (obj, array, res)=>{
+    obj={id:createId, ...obj}
+    array.push(obj)
+    writeOnFile(array)
+    return res.send(console.log(`New Student with id = ${newStudent.id} has been created`))
 }
 
 //METHODS
@@ -37,10 +47,11 @@ export const getById = ('/:id', (req, res)=>{
 
 export const createStudent = ('/', (req, res)=>{
     let newStudent = req.body
-    newStudent={id:createId, ...newStudent}
-    jsonFile.push(newStudent)
-    writeOnFile(jsonFile)
-    res.send(console.log(`New Student with id = ${newStudent.id} has been created`))
+    let check = jsonFile.filter(student=>student.name===newStudent.name)
+    check.length>0? res.send(console.log('Error: There is another student with that name')) : postFunction(newStudent, jsonFile, res)
+    // res.send(console.log(`New Student with id = ${newStudent.id} has been created`))
+
+    
 })
 
 //DELETE
