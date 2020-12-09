@@ -10,6 +10,10 @@ export default class Edit extends PureComponent {
         this.props.toggleModal()
     }
 
+    deleteFunc=async(url, id)=>{
+        this.props.delete(url, id)
+    }
+
     render() {
         let {studentInfo, displayModal, fillUp, toggleModal}=this.props
         return (
@@ -82,6 +86,9 @@ export default class Edit extends PureComponent {
                     </Form>
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button variant="danger" onClick={()=>this.deleteFunc(this.url, studentInfo.id)}>
+                            Delete Me
+                        </Button>
                         <Button variant="primary" onClick={()=>this.editFunc(this.url, studentInfo.id, studentInfo)}>
                             Edit
                         </Button>

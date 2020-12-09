@@ -4,8 +4,11 @@ import './Main_Styles/Home.scss'
 import {Row, Col, Container} from 'react-bootstrap'
 import Jumbo from '../Sub_Components/Home_SubComponents/Jumbo'
 import InfoBox from '../Sub_Components/Home_SubComponents/InfoBox'
+import Projects from '../Sub_Components/Home_SubComponents/Projects'
 
 export default class Home extends PureComponent {
+    // url=process.env.URL_STUDENTS
+
     url='http://localhost:5000/students'
 
     state={
@@ -58,9 +61,10 @@ export default class Home extends PureComponent {
         let result= await response.json()
         console.log(`Student with id = ${id} has been deleted`, result)
         this.fetchGet(url)
+        window.location.assign('/')
     }
 
-    deleteStudent =(url, id)=>{
+    delete =(url, id)=>{
         this.fetchDelete(url, id)
     }
 
@@ -86,12 +90,12 @@ export default class Home extends PureComponent {
         this.fetchGetSingle(this.url, this.props.match.params.id)
     }
 
-    // componentDidUpdate(prevProps, prevState){
-    //     if(prevState.list !== this.state.list){
-    //     }
-    //     if(prevState.studentInfo !== this.state.studentInfo){
-    //     }
-    // }
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.list !== this.state.list){
+        }
+        if(prevState.studentInfo !== this.state.studentInfo){
+        }
+    }
 
     render() {
         return (
@@ -118,9 +122,13 @@ export default class Home extends PureComponent {
                 fillUp={this.fillUp}
                 editBtn={this.editBtn}
                 toggleModal={this.toggleModal}
+                delete={this.delete}
+                />
+                <Projects
+                id={this.props.match.params.id}
                 />
                 
-                <div className="others-info">
+                {/* <div className="others-info">
                     <h2>Other Infos</h2>
                     <table>
                         <tr>
@@ -139,13 +147,13 @@ export default class Home extends PureComponent {
                                 <td>{student.email}</td>
                                 <td>{student.id}</td>
                                 <button onClick={()=>this.passInfo(student)}>Edit</button>
-                                <button onClick={()=>this.deleteStudent(this.url, student.id)}>Delete</button>
+                                <button onClick={()=>this.delete(this.url, student.id)}>Delete</button>
                             </tr>
 
                             )
                         })}
                     </table>
-                </div>
+                </div> */}
             </div>
         )
     }

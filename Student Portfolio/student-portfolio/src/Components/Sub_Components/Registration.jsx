@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import './Sub_Styles/Registration.scss'
 import {Form, Button, Alert} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
 
 export default class Registration extends PureComponent {
     url='http://localhost:5000/students'
