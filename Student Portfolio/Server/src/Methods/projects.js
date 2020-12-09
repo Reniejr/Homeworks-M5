@@ -15,14 +15,11 @@ let filePath = path.join(__dirname, projects)
 export const getList = (`/:studentId/projects/`, (req, res)=>{
     let {studentId} = req.params
     let filteredList = jsonFile.filter(list=>list.owner===studentId)
-
-
     if(req.query && req.query.name){
         let filterProjects = filteredList[0].projectList.filter(project=>project.name===req.query.name)
         res.send(filterProjects)
     }else{
         res.send(filteredList)
-
     }
 })
 
@@ -64,15 +61,15 @@ export const deleteObj = ('/:studentId/projects/', (req, res)=>{
     const {studentId} = req.params
     let studentProjects= jsonFile.filter(list=>list.owner===studentId)
     let projectList = studentProjects[0].projectList
-    let studentFiltered = jsonFile.filter(list=>list.owner!==studentId)
     if(req.query && req.query.name){
+        let studentFiltered = jsonFile.filter(list=>list.owner!==studentId)
         let newProjectList = projectList.filter(project=>project.name!==req.query.name)
         let newObj = {
             owner:studentId,
             projectList:[]
         }
-        newObj.projectList.push(newProjectList)
-        studentFiltered.pusch(newObj)
+        newObj.projectList=newProjectList
+        studentFiltered.push(newObj)
         writeOnFile(studentFiltered, filePath)
         res.send(newProjectList)
     }else{console.log('already deleted')}
