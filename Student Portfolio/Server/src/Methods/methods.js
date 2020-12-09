@@ -24,7 +24,7 @@ const postFunction = (obj, array, res)=>{
     obj={id:createId, ...obj}
     array.push(obj)
     writeOnFile(array)
-    return res.send(console.log(`New Student with id = ${newStudent.id} has been created`))
+    return res.send(obj)
 }
 
 //METHODS
@@ -60,7 +60,7 @@ export const deleteStudent = ('/:id', (req, res)=>{
     const {id} = req.params
     const newJsonFile = jsonFile.filter(user=>user.id!==id)
     writeOnFile(newJsonFile)
-    res.send(console.log(`Student with id = ${id} has been deleted`))
+    res.send(newJsonFile)
 })
 
 //EDIT (PUT)
@@ -72,5 +72,5 @@ export const editStudent = ('/:id', (req, res)=>{
     let newJsonFile = jsonFile.filter(user=>user.id!==id)
     newJsonFile.push(editStudent)
     writeOnFile(newJsonFile)
-    res.send(console.log(`Student with id = ${id} has been edited`))
+    res.send(editStudent)
 })

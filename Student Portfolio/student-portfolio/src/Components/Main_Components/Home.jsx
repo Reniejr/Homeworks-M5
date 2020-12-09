@@ -54,6 +54,7 @@ export default class Home extends PureComponent {
         })
         let result= await response.json()
         console.log(`Student with id = ${id} has been deleted`, result)
+        this.fetchGet(url)
     }
 
     deleteStudent =(url, id)=>{
@@ -71,7 +72,7 @@ export default class Home extends PureComponent {
         this.setState({studentInfo: newStudent})
     }
 
-    editBtn=(url, id, newObj)=>{
+    editBtn=async(url, id, newObj)=>{
         this.fetchPut(url, id, newObj)
         this.setState({displayModal: !this.state.displayModal})
         
@@ -86,6 +87,8 @@ export default class Home extends PureComponent {
     componentDidUpdate(prevProps, prevState){
         if(prevState.list !== this.state.list){
             console.log(this.state.list)
+        }
+        if(prevState.studentInfo !== this.state.studentInfo){
         }
     }
 
