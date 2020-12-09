@@ -1,7 +1,8 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import {routes} from './Routes/routes.js'
+import {studentRoutes} from './Routes/studentRoute.js'
+import {projectsRoute} from './Routes/projectsRoute.js'
 import listEndpoints from 'express-list-endpoints'
 
 const server=express(),
@@ -12,7 +13,8 @@ const server=express(),
 
 server.use(bodyParser.json())
 server.use(cors())
-server.use('/students', routes)
+server.use('/students', studentRoutes)
+server.use('/students', projectsRoute)
 
 server.get('/', (req, res)=>{
     res.send('Homepage')

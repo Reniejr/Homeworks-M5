@@ -1,2 +1,2 @@
 export let students = './src/Data/students.json'
-export let movies = './src/Data/movies.json'
+export let projects = './src/Data/projects.json'
