@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
+import Edit from '../Sub_Components/Edit'
 import './Main_Styles/Home.scss'
-import {Modal, Button, Form} from 'react-bootstrap'
 
 export default class Home extends PureComponent {
     url='http://localhost:5000/students'
@@ -74,10 +74,9 @@ export default class Home extends PureComponent {
 
     editBtn=async(url, id, newObj)=>{
         this.fetchPut(url, id, newObj)
-        this.setState({displayModal: !this.state.displayModal})
-        
     }
 
+    toggleModal=()=>this.setState({displayModal: !this.state.displayModal})
 
     componentDidMount(){
         this.fetchGet(this.url)
@@ -86,7 +85,6 @@ export default class Home extends PureComponent {
 
     componentDidUpdate(prevProps, prevState){
         if(prevState.list !== this.state.list){
-            console.log(this.state.list)
         }
         if(prevState.studentInfo !== this.state.studentInfo){
         }
@@ -95,77 +93,13 @@ export default class Home extends PureComponent {
     render() {
         return (
             <div id='home'>
-                <Modal.Dialog style={{display:this.state.displayModal?'none':'block'}}>
-                    <Modal.Header closeButton onClick={()=>this.setState({displayModal: !this.state.displayModal})}>
-                        <Modal.Title>Modal title</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                    <Form>
-                    <Form.Group>
-                        <Form.Label htmlFor='name'>Name</Form.Label>
-                        <Form.Control 
-                        required
-                        id='name'
-                        name='name'
-                        type="text" 
-                        placeholder="Enter Name" 
-                        onChange={this.fillUp}
-                        value={this.state.studentInfo.name}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label htmlFor='surname'>Surname</Form.Label>
-                        <Form.Control 
-                        required
-                        id='surname'
-                        name='surname'
-                        type="text" 
-                        placeholder="Enter Surname" 
-                        onChange={this.fillUp}
-                        value={this.state.studentInfo.surname}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label htmlFor='Email'>Email</Form.Label>
-                        <Form.Control 
-                        required
-                        id='email'
-                        name='email'
-                        type="email" 
-                        placeholder="Enter Email" 
-                        onChange={this.fillUp}
-                        value={this.state.studentInfo.email}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label htmlFor='birth'>Birth</Form.Label>
-                        <Form.Control 
-                        required
-                        id='birth'
-                        name='birth'
-                        type="date"
-                        onChange={this.fillUp}
-                        value={this.state.studentInfo.birth}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label htmlFor='password'>Password</Form.Label>
-                        <Form.Control 
-                        required
-                        id='password'
-                        name='password'
-                        type="password"
-                        onChange={this.fillUp}
-                        value={this.state.studentInfo.password}
-                        />
-                    </Form.Group>
-                        <Button variant="primary" onClick={()=>this.editBtn(this.url, this.state.studentInfo.id, this.state.studentInfo)}>
-                            Edit
-                        </Button>
-                    </Form>
-                    </Modal.Body>
-                </Modal.Dialog>
+                <Edit
+                studentInfo={this.state.studentInfo}
+                displayModal={this.state.displayModal}
+                fillUp={this.fillUp}
+                editBtn={this.editBtn}
+                toggleModal={this.toggleModal}
+                />
                 <div className="personal-info">
                     <h2>Personal Infos</h2>
                     <table>

@@ -41,6 +41,8 @@ export default class Registration extends PureComponent {
         })
         let result = await response.json()
         console.log(result)
+        let id = result.id
+        window.location.assign(`/home/${id}`)
     }
 
     registerStudent = (e)=>{
@@ -57,6 +59,7 @@ export default class Registration extends PureComponent {
     render() {
         return (
             <div id='registration'>
+                <div className="registration-form">
                 <Alert 
                 variant='danger'
                 style={{
@@ -118,14 +121,19 @@ export default class Registration extends PureComponent {
                         onChange={this.fillUp}
                         />
                     </Form.Group>
+                    <Form.Group>
+                        <Form.Check 
+                        id='staff'
+                        type="checkbox" 
+                        label="School Staff" />
+                    </Form.Group>
 
                     <Button variant="primary" type="submit">
                         Register
                     </Button>
-                    <Link to='/'>
-                        Back to Landing Page
-                    </Link>
                 </Form>
+                </div>
+                
             </div>
         )
     }

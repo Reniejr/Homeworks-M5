@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import './Sub_Styles/Login.scss'
 import {Form, Button} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
 
 export default class Login extends PureComponent {
 
@@ -14,7 +13,7 @@ export default class Login extends PureComponent {
             <div 
             id='login'
             style={{
-                width: stateLogin? '0px' : ''
+                marginLeft: stateLogin? '-200%' : ''
             }}
             >
                 <button className='close' onClick={showFunction}>X</button>
@@ -40,13 +39,16 @@ export default class Login extends PureComponent {
                         onChange={(e)=>fillLoginFunction(e)}
                         />
                     </Form.Group>
+                    {/* <Form.Group >
+                        <Form.Check 
+                        id='staff'
+                        type="checkbox" 
+                        label="School Staff"/>
+                    </Form.Group> */}
                     <Button type="submit">
                         Submit
                     </Button>
                 </Form>
-                <Link to='/registration'>
-                        Not register yet? Click me
-                </Link>
             </div>
         )
     }

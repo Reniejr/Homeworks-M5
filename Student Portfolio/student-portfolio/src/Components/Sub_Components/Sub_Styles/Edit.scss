@@ -1,0 +1,10 @@
+.modal-dialog {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: margin-top 0.5s ease;
+  .modal-body {
+    height: 300px;
+    overflow-y: auto;
+  }
+}

@@ -1,12 +1,25 @@
 import React, { PureComponent } from 'react'
-import {Form, Button} from 'react-bootstrap'
+import './Sub_Styles/Edit.scss'
+import {Form, Button, Modal} from 'react-bootstrap'
 
 export default class Edit extends PureComponent {
+    url='http://localhost:5000/students'
+
+    editFunc=(url, id, newObj)=>{
+        this.props.editBtn(url, id, newObj)
+        this.props.toggleModal()
+    }
+
     render() {
-        let {studentInfo}=this.props
+        let {studentInfo, displayModal, fillUp, toggleModal}=this.props
         return (
-            <div>
-                <Form onSubmit={this.registerStudent}>
+               <Modal.Dialog style={{marginTop:displayModal?'-200%':''}}>
+                    <Modal.Header closeButton onClick={toggleModal}>
+                        <Modal.Title>Edit Profile</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                    <Form>
                     <Form.Group>
                         <Form.Label htmlFor='name'>Name</Form.Label>
                         <Form.Control 
@@ -15,7 +28,8 @@ export default class Edit extends PureComponent {
                         name='name'
                         type="text" 
                         placeholder="Enter Name" 
-                        onChange={this.fillUp}
+                        onChange={fillUp}
+                        value={studentInfo.name}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -26,7 +40,8 @@ export default class Edit extends PureComponent {
                         name='surname'
                         type="text" 
                         placeholder="Enter Surname" 
-                        onChange={this.fillUp}
+                        onChange={fillUp}
+                        value={studentInfo.surname}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -37,7 +52,8 @@ export default class Edit extends PureComponent {
                         name='email'
                         type="email" 
                         placeholder="Enter Email" 
-                        onChange={this.fillUp}
+                        onChange={fillUp}
+                        value={studentInfo.email}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -47,7 +63,8 @@ export default class Edit extends PureComponent {
                         id='birth'
                         name='birth'
                         type="date"
-                        onChange={this.fillUp}
+                        onChange={fillUp}
+                        value={studentInfo.birth}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -57,15 +74,19 @@ export default class Edit extends PureComponent {
                         id='password'
                         name='password'
                         type="password"
-                        onChange={this.fillUp}
+                        onChange={fillUp}
+                        value={studentInfo.password}
                         />
                     </Form.Group>
-
-                    <Button variant="primary" type="submit">
-                        Register
-                    </Button>
-                </Form>
-            </div>
+                        
+                    </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={()=>this.editFunc(this.url, studentInfo.id, studentInfo)}>
+                            Edit
+                        </Button>
+                    </Modal.Footer>
+                </Modal.Dialog>
         )
     }
 }
