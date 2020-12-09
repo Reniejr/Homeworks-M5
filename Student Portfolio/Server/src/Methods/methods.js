@@ -1,32 +1,9 @@
 import {v4 as uniqueId} from 'uuid'
-import fs from 'fs'
-import path from 'path'
-import { json } from 'express'
+import {readFile, writeOnFile, postFunction} from './Function.js'
 
 const createId = uniqueId()
 
-//PATH AND ARRAYS INITIALIZED
-const __dirname = path.resolve()
-const studentsPath = path.join(__dirname, './src/Data/students.json')
-const readPath = fs.readFileSync(studentsPath)
-const stringFile = readPath.toString()
-let jsonFile = JSON.parse(stringFile)
-
-//WRITE ON API
-
-const writeOnFile = (array)=>{
-   return fs.writeFileSync(studentsPath, JSON.stringify(array))
-}
-
-//POST FUNCTION
-
-const postFunction = (obj, array, res)=>{
-    obj={id:createId, ...obj}
-    array.push(obj)
-    writeOnFile(array)
-    return res.send(obj)
-}
-
+let jsonFile = readFile('./src/Data/students.json')
 //METHODS
 
 //GET
@@ -45,7 +22,7 @@ export const getById = ('/:id', (req, res)=>{
 
 //POST
 
-export const createStudent = ('/', (req, res)=>{
+export const create = ('/', (req, res)=>{
     let newStudent = req.body
     let check = jsonFile.filter(student=>student.email===newStudent.email)
     check.length>0? res.send(console.log('Error: There is another student with that Email')) : postFunction(newStudent, jsonFile, res)
@@ -56,7 +33,7 @@ export const createStudent = ('/', (req, res)=>{
 
 //DELETE
 
-export const deleteStudent = ('/:id', (req, res)=>{
+export const deleteObj = ('/:id', (req, res)=>{
     const {id} = req.params
     const newJsonFile = jsonFile.filter(user=>user.id!==id)
     writeOnFile(newJsonFile)
@@ -65,7 +42,7 @@ export const deleteStudent = ('/:id', (req, res)=>{
 
 //EDIT (PUT)
 
-export const editStudent = ('/:id', (req, res)=>{
+export const edit = ('/:id', (req, res)=>{
     const {id} = req.params
     let editStudent = req.body
     editStudent={id:id, ...editStudent}
