@@ -1,0 +1,55 @@
+.container {
+  padding: 0;
+  position: relative;
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+  }
+  .row {
+    width: 100%;
+    margin: 0;
+    .col-md-3 {
+      border-right: 1px solid rgba($color: #000000, $alpha: 0.1);
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          font-size: 0.6rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          span {
+            display: inline-block;
+            width: 30px;
+            margin-right: 0.2rem;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    .col-md-9 {
+      .row {
+        width: 100%;
+        margin: 0;
+        .col-2 {
+          img {
+            width: 100%;
+            border-radius: 50%;
+          }
+        }
+        .col-10 {
+          position: relative;
+          p {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}

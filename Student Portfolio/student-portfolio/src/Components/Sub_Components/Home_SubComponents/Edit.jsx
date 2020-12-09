@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import './Sub_Styles/Edit.scss'
+import './Home_SubComponents_Styles/Edit.scss'
 import {Form, Button, Modal} from 'react-bootstrap'
 
 export default class Edit extends PureComponent {

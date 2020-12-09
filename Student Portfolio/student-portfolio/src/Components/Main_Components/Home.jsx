@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
-import Edit from '../Sub_Components/Edit'
+import Edit from '../Sub_Components/Home_SubComponents/Edit'
 import './Main_Styles/Home.scss'
+import {Row, Col, Container} from 'react-bootstrap'
+import Jumbo from '../Sub_Components/Home_SubComponents/Jumbo'
+import InfoBox from '../Sub_Components/Home_SubComponents/InfoBox'
 
 export default class Home extends PureComponent {
     url='http://localhost:5000/students'
@@ -83,16 +86,32 @@ export default class Home extends PureComponent {
         this.fetchGetSingle(this.url, this.props.match.params.id)
     }
 
-    componentDidUpdate(prevProps, prevState){
-        if(prevState.list !== this.state.list){
-        }
-        if(prevState.studentInfo !== this.state.studentInfo){
-        }
-    }
+    // componentDidUpdate(prevProps, prevState){
+    //     if(prevState.list !== this.state.list){
+    //     }
+    //     if(prevState.studentInfo !== this.state.studentInfo){
+    //     }
+    // }
 
     render() {
         return (
             <div id='home'>
+                <Jumbo
+                info={this.state.info}
+                />
+                
+                <Row className='info-box'>
+                    <InfoBox
+                    info={this.state.info}
+                    passInfo={this.passInfo}
+                    />
+                    <Container>
+                        <h2>Skills</h2>
+                        <Row>
+                            <Col></Col>
+                        </Row>
+                    </Container>
+                </Row>
                 <Edit
                 studentInfo={this.state.studentInfo}
                 displayModal={this.state.displayModal}
@@ -100,25 +119,7 @@ export default class Home extends PureComponent {
                 editBtn={this.editBtn}
                 toggleModal={this.toggleModal}
                 />
-                <div className="personal-info">
-                    <h2>Personal Infos</h2>
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Birth</th>
-                            <th>Email</th>
-                            <th>Id</th>
-                        </tr>
-                        <tr>
-                            <td>{this.state.info.name}</td>
-                            <td>{this.state.info.surname}</td>
-                            <td>{this.state.info.birth}</td>
-                            <td>{this.state.info.email}</td>
-                            <td>{this.state.info.id}</td>
-                        </tr>
-                    </table>
-                </div>
+                
                 <div className="others-info">
                     <h2>Other Infos</h2>
                     <table>
