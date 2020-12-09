@@ -2,9 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import {routes} from './Routes/routes.js'
-import {moviesRoutes} from './Routes/movieRoutes.js'
 import listEndpoints from 'express-list-endpoints'
-
 
 const server=express(),
     host='localhost',
@@ -15,7 +13,6 @@ const server=express(),
 server.use(bodyParser.json())
 server.use(cors())
 server.use('/students', routes)
-server.use('/movies', moviesRoutes)
 
 server.get('/', (req, res)=>{
     res.send('Homepage')
