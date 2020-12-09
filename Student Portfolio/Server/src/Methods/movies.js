@@ -1,9 +1,10 @@
 import {v4 as uniqueId} from 'uuid'
 import {readFile, writeOnFile, postFunction} from './Function.js'
-import {students} from '../Routes/filenames.js'
+import {movies} from '../Routes/filenames.js'
+
 const createId = uniqueId()
 
-let jsonFile =readFile(students)
+let jsonFile = readFile(movies)
 //METHODS
 
 //GET
