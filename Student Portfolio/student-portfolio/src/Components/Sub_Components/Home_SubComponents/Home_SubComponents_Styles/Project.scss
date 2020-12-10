@@ -16,12 +16,27 @@
       td {
         button {
           position: relative;
+          border-radius: 10px;
+          background-color: #7cbfdf;
+          color: white;
+          font-weight: 600;
+        }
+        button:hover {
+          border: 2px solid #7cbfdf;
+          background-color: transparent;
+          color: #7cbfdf;
+        }
+        p {
+          font-size: 0.8rem;
+          margin: 0;
         }
       }
     }
     .description {
       position: relative;
+      overflow: hidden;
       width: 120vh;
+      transition: all 1s ease;
       p {
         width: 100%;
       }

@@ -10,7 +10,8 @@ export default class Registration extends PureComponent {
             name:'',
             surname: '',
             email:'',
-            birth:''
+            birth:'',
+            staff:false
         },
         list:[],
         alert:true
@@ -26,7 +27,13 @@ export default class Registration extends PureComponent {
     fillUp=(e)=>{
         let newStudent={...this.state.student}
         let currentId = e.currentTarget.id
-        newStudent[currentId]=e.currentTarget.value
+
+        if(currentId==='staff'){
+            newStudent[currentId] = e.currentTarget.checked
+        }
+        else{
+            newStudent[currentId]=e.currentTarget.value
+        }
         this.setState({student: newStudent})
     }
 
@@ -124,7 +131,9 @@ export default class Registration extends PureComponent {
                         <Form.Check 
                         id='staff'
                         type="checkbox" 
-                        label="School Staff" />
+                        label="School Staff" 
+                        onChange={this.fillUp}
+                        />
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
