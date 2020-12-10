@@ -107,7 +107,10 @@ export default class Projects extends PureComponent {
                             <>
                                 <Row className='project'>
                                     <Col xs={1}>{index}</Col>
-                                    <Col xs={3}>{project.name}</Col>
+                                    <Col xs={3}>
+                                        <p>{project.name}</p>
+                                        <p className='project-id'>{project.id}</p>  
+                                    </Col>
                                     <Col xs={3}>
                                         <p>Date: {project.createdAt.substring(0, 10)}</p>
                                         <p>Time: {project.createdAt.substring(11, 19)}</p>
@@ -131,7 +134,7 @@ export default class Projects extends PureComponent {
                                         <p><span>Project Live URL : </span>{project.liveURL}</p>
                                     </div>
                                 </Row>
-                                <Reviews id={project.id}/>
+                                <Reviews id={project.id} showState={this.state.showDescList} index={index}/>
                             </>
                         )
                     })}

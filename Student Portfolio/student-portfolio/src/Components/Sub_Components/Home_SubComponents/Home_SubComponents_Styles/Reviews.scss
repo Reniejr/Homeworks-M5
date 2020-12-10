@@ -4,6 +4,7 @@
   overflow: hidden;
   .reviews-container {
     min-width: 100%;
+    display: flex;
     .slider-review {
       width: 25%;
       padding: 0.5rem;

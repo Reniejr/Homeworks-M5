@@ -27,8 +27,15 @@ export default class Reviews extends PureComponent {
 
 
     render() {
+        let {showState, index}=this.props
         return (
-            <Row id='reviews'>
+            <Row 
+            id='reviews'
+            style={{
+                height: showState.includes(index)? '': '0px'
+            }}
+            
+            >
                 <div className="reviews-container">
                     {this.state.list.map(review=>{
                         return(
