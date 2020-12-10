@@ -1,4 +1,4 @@
-import {readFile, writeOnFile, postFunction} from './Function.js'
+import {writeDB, readDB} from './Function.js'
 import {projects, students} from '../Routes/filenames.js'
 import path from 'path'
 import {v4 as uniqueId} from 'uuid'
@@ -11,9 +11,9 @@ const __dirname = path.resolve()
 
 
 //VARIABLES
-let jsonFile =readFile(projects)
 let filePath = path.join(__dirname, projects)
-let studentFile = readFile(students)
+let jsonFile = await readDB(filePath)
+let studentFile = await readDB(students)
 
 
 //METHODS
@@ -38,7 +38,7 @@ export const getList = (`/:studentId/projects/`, (req, res, next)=>{
 
 //POST
 
-export const create = ('/:studentId/projects/',[check("name").exists()],(req, res, next)=>{
+export const create = ('/:studentId/projects/',[check("name").exists()],async(req, res, next)=>{
     try {
 
         const errors = validationResult(req)
@@ -62,7 +62,7 @@ export const create = ('/:studentId/projects/',[check("name").exists()],(req, re
                 newObj={id:createId, ...newObj, createdAt:new Date()}
                 newList.projectList.push(newObj)
                 jsonFile.push(newList)
-                writeOnFile(jsonFile, filePath)
+                writeDB(jsonFile, filePath)
                 res.send(newObj)
             }else{
                 let newObj = req.body
@@ -70,7 +70,7 @@ export const create = ('/:studentId/projects/',[check("name").exists()],(req, re
                 check[0].projectList.push(newObj)
                 let filtered = jsonFile.filter(list=>list.ownerId !== studentId)
                 filtered.push(check[0])
-                writeOnFile(filtered, filePath)
+                writeDB(filtered, filePath)
                 res.send(newObj)
             }
         }
@@ -81,7 +81,7 @@ export const create = ('/:studentId/projects/',[check("name").exists()],(req, re
 
 //DELETE
 
-export const deleteObj = ('/:studentId/projects/', (req, res, next)=>{
+export const deleteObj = ('/:studentId/projects/', async (req, res, next)=>{
     try {
         const {studentId} = req.params
         let studentProjects= jsonFile.filter(list=>list.ownerId===studentId)
@@ -97,7 +97,7 @@ export const deleteObj = ('/:studentId/projects/', (req, res, next)=>{
             }
             newObj.projectList=newProjectList
             studentFiltered.push(newObj)
-            writeOnFile(studentFiltered, filePath)
+            writeDB(studentFiltered, filePath)
             res.send(newProjectList)
         }else{
             const err = new Error()
@@ -111,7 +111,7 @@ export const deleteObj = ('/:studentId/projects/', (req, res, next)=>{
 
 //EDIT (PUT)
 
-export const edit = ('/:studentId/projects/', (req, res, next)=>{
+export const edit = ('/:studentId/projects/', async (req, res, next)=>{
     try {
         const {studentId} = req.params
         let studentProjects= jsonFile.filter(list=>list.ownerId===studentId)
@@ -130,7 +130,7 @@ export const edit = ('/:studentId/projects/', (req, res, next)=>{
             }
             newList.projectList=[...newProjectList, newObj]
             studentFiltered.push(newList)
-            writeOnFile(studentFiltered, filePath)
+            writeDB(studentFiltered, filePath)
             res.send(newObj)
         }else{
             const err = new Error()

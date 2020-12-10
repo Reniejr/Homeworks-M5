@@ -1,12 +1,12 @@
-import {readFile, writeOnFile, postFunction} from './Function.js'
+import {postFunction, readDB, writeDB} from './Function.js'
 import {students} from '../Routes/filenames.js'
 import path from 'path'
 import {check, validationResult} from 'express-validator'
 
 const __dirname = path.resolve()
 
-let jsonFile =readFile(students)
 let filePath = path.join(__dirname, students)
+let jsonFile = await readDB(filePath)
 //METHODS
 
 //GET
@@ -80,11 +80,11 @@ export const create = ('/',[
 
 //DELETE
 
-export const deleteObj = ('/:id', (req, res, next)=>{
+export const deleteObj = ('/:id', async (req, res, next)=>{
     try {
         const {id} = req.params
         const newJsonFile = jsonFile.filter(user=>user.id!==id)
-        writeOnFile(newJsonFile, filePath)
+        writeDB(newJsonFile, filePath)
         res.send(newJsonFile)
     } catch (error) {
         next(error)
@@ -94,14 +94,14 @@ export const deleteObj = ('/:id', (req, res, next)=>{
 
 //EDIT (PUT)
 
-export const edit = ('/:id', (req, res, next)=>{
+export const edit = ('/:id', async(req, res, next)=>{
     try {
         const {id} = req.params
         let editObj = req.body
         editObj={id:id, ...editObj}
         let newJsonFile = jsonFile.filter(user=>user.id!==id)
         newJsonFile.push(editObj)
-        writeOnFile(newJsonFile, filePath)
+        writeDB(newJsonFile, filePath)
         res.send(editObj)
     } catch (error) {
         next(error)
