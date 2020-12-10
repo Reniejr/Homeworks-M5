@@ -57,8 +57,10 @@
     border-radius: 1px;
     margin: 0;
     position: relative;
-    padding: 1rem;
     overflow: hidden;
-    transition: height 2s linear;
+    transition: all 1s ease;
+    .info {
+      margin: 1rem;
+    }
   }
 }

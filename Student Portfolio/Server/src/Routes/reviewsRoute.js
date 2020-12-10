@@ -1,7 +1,8 @@
 import express from 'express'
-import {getFile, postFile} from '../Methods/reviews.js'
+import {getFile, postFile, deleteReview} from '../Methods/reviews.js'
 
 export const reviewRoute = express.Router()
 
-reviewRoute.get('/:projectId/', getFile)
-reviewRoute.post('/:projectId/', postFile)
+reviewRoute.get('/:id', getFile)
+reviewRoute.post('/:id', postFile)
+reviewRoute.delete('/:id', deleteReview)

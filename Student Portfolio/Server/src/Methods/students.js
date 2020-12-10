@@ -1,4 +1,4 @@
-import {postFunction, readDB, writeDB} from './Function.js'
+import {postFunction, readDB, writeDB, writeOnFile, readFile} from './Function.js'
 import {students} from '../Routes/filenames.js'
 import path from 'path'
 import {check, validationResult} from 'express-validator'
@@ -6,7 +6,8 @@ import {check, validationResult} from 'express-validator'
 const __dirname = path.resolve()
 
 let filePath = path.join(__dirname, students)
-let jsonFile = await readDB(filePath)
+// let jsonFile = await readDB(filePath)
+let jsonFile = readFile(students)
 //METHODS
 
 //GET
@@ -84,7 +85,7 @@ export const deleteObj = ('/:id', async (req, res, next)=>{
     try {
         const {id} = req.params
         const newJsonFile = jsonFile.filter(user=>user.id!==id)
-        writeDB(newJsonFile, filePath)
+        writeOnFile(newJsonFile, filePath)
         res.send(newJsonFile)
     } catch (error) {
         next(error)
@@ -101,7 +102,7 @@ export const edit = ('/:id', async(req, res, next)=>{
         editObj={id:id, ...editObj}
         let newJsonFile = jsonFile.filter(user=>user.id!==id)
         newJsonFile.push(editObj)
-        writeDB(newJsonFile, filePath)
+        writeOnFile(newJsonFile, filePath)
         res.send(editObj)
     } catch (error) {
         next(error)

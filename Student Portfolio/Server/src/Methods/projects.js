@@ -1,4 +1,4 @@
-import {writeDB, readDB} from './Function.js'
+import {writeDB, readDB, writeOnFile, readFile} from './Function.js'
 import {projects, students} from '../Routes/filenames.js'
 import path from 'path'
 import {v4 as uniqueId} from 'uuid'
@@ -12,8 +12,10 @@ const __dirname = path.resolve()
 
 //VARIABLES
 let filePath = path.join(__dirname, projects)
-let jsonFile = await readDB(filePath)
-let studentFile = await readDB(students)
+// let jsonFile = await readDB(filePath)
+// let studentFile = await readDB(students)
+let jsonFile =  readFile(projects)
+let studentFile =  readFile(students)
 
 
 //METHODS
@@ -62,7 +64,7 @@ export const create = ('/:studentId/projects/',[check("name").exists()],async(re
                 newObj={id:createId, ...newObj, createdAt:new Date()}
                 newList.projectList.push(newObj)
                 jsonFile.push(newList)
-                writeDB(jsonFile, filePath)
+                writeOnFile(jsonFile, filePath)
                 res.send(newObj)
             }else{
                 let newObj = req.body
@@ -70,7 +72,7 @@ export const create = ('/:studentId/projects/',[check("name").exists()],async(re
                 check[0].projectList.push(newObj)
                 let filtered = jsonFile.filter(list=>list.ownerId !== studentId)
                 filtered.push(check[0])
-                writeDB(filtered, filePath)
+                writeOnFile(filtered, filePath)
                 res.send(newObj)
             }
         }
@@ -97,7 +99,7 @@ export const deleteObj = ('/:studentId/projects/', async (req, res, next)=>{
             }
             newObj.projectList=newProjectList
             studentFiltered.push(newObj)
-            writeDB(studentFiltered, filePath)
+            writeOnFile(studentFiltered, filePath)
             res.send(newProjectList)
         }else{
             const err = new Error()
@@ -130,7 +132,7 @@ export const edit = ('/:studentId/projects/', async (req, res, next)=>{
             }
             newList.projectList=[...newProjectList, newObj]
             studentFiltered.push(newList)
-            writeDB(studentFiltered, filePath)
+            writeOnFile(studentFiltered, filePath)
             res.send(newObj)
         }else{
             const err = new Error()
