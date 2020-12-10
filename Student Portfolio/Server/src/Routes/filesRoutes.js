@@ -19,7 +19,7 @@ fileRouter.post('/profilePic', upload.single("avatar"), async(req, res, next)=>{
                 studentProfilePicFolder, req.file.originalname),
                  req.file.buffer
         )
-        res.send('ok')
+        res.send(`The ${req.file.originalname} has been uploaded`)
     } catch (error) {
         console.log(error)
     }

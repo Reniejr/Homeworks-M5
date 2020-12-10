@@ -37,9 +37,9 @@ export default class Reviews extends PureComponent {
             
             >
                 <div className="reviews-container">
-                    {this.state.list.map(review=>{
+                    {this.state.list.map((review, index)=>{
                         return(
-                            <Col xs={3} className="slider-review">
+                            <Col xs={3} className="slider-review" key={index}>
                                 <div className="reviewer">
                                     <img src="" alt=""/>
                                     <p>{review.reviewer}</p>

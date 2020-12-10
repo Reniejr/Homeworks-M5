@@ -24,8 +24,11 @@ export default class Projects extends PureComponent {
     fetchGet=async(url, id)=>{
         let response = await fetch(url+`/${id}/projects`)
         let result = await response.json()
-        this.setState({list: result[0].projectList})
-        console.log(result[0].projectList)
+        if(result[0]){
+            this.setState({list: result[0].projectList})
+        }else{
+            this.setState({list:[]})
+        }
     }
 
     fetchPost=async(url, id, newObj)=>{
@@ -104,7 +107,7 @@ export default class Projects extends PureComponent {
                             modifiedTime=project.modifiedAt.substring(11, 19)
                         }
                         return(
-                            <>
+                            <div key={index}>
                                 <Row className='project'>
                                     <Col xs={1}>{index}</Col>
                                     <Col xs={3}>
@@ -135,7 +138,7 @@ export default class Projects extends PureComponent {
                                     </div>
                                 </Row>
                                 <Reviews id={project.id} showState={this.state.showDescList} index={index}/>
-                            </>
+                            </div>
                         )
                     })}
                 </Container>
