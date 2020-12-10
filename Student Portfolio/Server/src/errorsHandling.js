@@ -20,6 +20,6 @@ export const badRequest = (err, res, req, next)=>{
 }
 export const catchAll = (err, res, req, next)=>{
     if(!res.headersSent){
-        res.status(err.httpStatusCode || 500).send('Generic Server Error')
-    }next(err)
+        res.status(500).send('Generic Server Error')
+    }
 }

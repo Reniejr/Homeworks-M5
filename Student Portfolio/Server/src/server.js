@@ -6,6 +6,7 @@ import {projectsRoute} from './Routes/projectsRoute.js'
 import listEndpoints from 'express-list-endpoints'
 import {notFound, unAuthorized, forbidden, badRequest, catchAll} from './errorsHandling.js'
 import path, { join } from 'path'
+import {fileRouter} from './Routes/filesRoutes.js'
 
 
 const server=express(),
@@ -24,6 +25,7 @@ server.use(bodyParser.json())
 server.use(cors())
 server.use('/students', studentRoutes)
 server.use('/students', projectsRoute)
+server.use('/images', fileRouter)
 
 server.use(notFound)
 server.use(unAuthorized)
