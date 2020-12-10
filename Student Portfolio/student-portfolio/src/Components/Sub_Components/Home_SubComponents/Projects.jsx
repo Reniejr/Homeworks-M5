@@ -9,6 +9,8 @@ export default class Projects extends PureComponent {
 
     state={
         list:[],
+        showDesc: null,
+        showDescList:[]
     }
 
     fetchGet=async(url, id)=>{
@@ -19,6 +21,15 @@ export default class Projects extends PureComponent {
     }
 
     fetchPost=async(url, id)=>{}
+
+    showDesc=(index)=>{
+        this.setState({showDescList: [...this.state.showDescList, index]})
+    }
+
+    closeDesc=(index)=>{
+        let filtered = this.state.showDescList.filter(descBox=> descBox !== index)
+        this.setState({showDescList: filtered})
+    }
 
     componentDidMount(){
         this.fetchGet(this.url, this.props.id)
@@ -40,21 +51,35 @@ export default class Projects extends PureComponent {
                             <tr>
                             <th>#</th>
                             <th>Project Name</th>
-                            <th>Project Github URL</th>
-                            <th>Project Live URL</th>
+                            <th>Created</th>
+                            <th>Updated</th>
                             <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {this.state.list.map((project, index)=>{
                                 return(
-                                    <tr key={project.id}>
-                                        <th>{(index +1)}</th>
-                                        <th>{project.name}</th>
-                                        <th>{project.repoURL}</th>
-                                        <th>{project.liveURL}</th>
-                                        <th></th>
-                                    </tr>
+                                    <>
+                                        <tr key={project.id}>
+                                            <td>{(index +1)}</td>
+                                            <td>{project.name}</td>
+                                            <td>{project.createdAt}</td>
+                                            <td>{project.modifiedAt}</td>
+                                            <td><button onClick={()=>this.showDesc(index)}>Show</button></td>
+                                        </tr>
+                                        <div 
+                                        className='description'
+                                        style={{
+                                            display: this.state.showDescList.includes(index)?'block':'none'
+                                        }}
+                                        >
+                                            <button onClick={()=>this.closeDesc(index)}>x</button>
+                                            <p><span>Description : </span>{project.description}</p>
+                                            <p><span>Project Github URL : </span>{project.repoURL}</p>
+                                            <p><span>Project Live URL : </span>{project.liveURL}</p>
+
+                                        </div>
+                                    </>
                                 )
                             })}
                         </tbody>

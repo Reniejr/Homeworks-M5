@@ -122,7 +122,7 @@ export const edit = ('/:studentId/projects/', (req, res, next)=>{
             let newProjectList = projectList.filter(project=>project.name!==req.query.name)
             let projectSelected = projectList.filter(project=>project.name===req.query.name)
             let newObj = req.body
-            newObj={id: projectSelected[0].id, ...newObj, modifiedAt: new Date()}
+            newObj={id: projectSelected[0].id, ...newObj,createdAt: projectSelected[0].createdAt , modifiedAt: new Date()}
             let newList = {
                 ownerName: student[0].name,
                 ownerId:studentId,

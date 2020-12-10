@@ -9,4 +9,27 @@
       position: relative;
     }
   }
+  tbody {
+    width: 100%;
+    tr {
+      position: relative;
+      td {
+        button {
+          position: relative;
+        }
+      }
+    }
+    .description {
+      position: relative;
+      width: 120vh;
+      p {
+        width: 100%;
+      }
+      button {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+      }
+    }
+  }
 }
