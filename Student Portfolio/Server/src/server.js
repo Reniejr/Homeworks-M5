@@ -5,16 +5,21 @@ import {studentRoutes} from './Routes/studentRoute.js'
 import {projectsRoute} from './Routes/projectsRoute.js'
 import listEndpoints from 'express-list-endpoints'
 import {notFound, unAuthorized, forbidden, badRequest, catchAll} from './errorsHandling.js'
+import path, { join } from 'path'
+
 
 const server=express(),
     host='localhost',
-    PORT=process.env.PORT || 5000
+    PORT=process.env.PORT || 5000,
+    __dirname = path.resolve(),
+    publicFolder = join(__dirname, '../public')
 
 const logger = (req, res, next)=>{
     console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
     next()
 }
 
+server.use(express.static(publicFolder))
 server.use(bodyParser.json())
 server.use(cors())
 server.use('/students', studentRoutes)
