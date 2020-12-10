@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import './Home_SubComponents_Styles/Project.scss'
-import {Row, Container, Table} from 'react-bootstrap'
+import {Row, Container, Col} from 'react-bootstrap'
 import ProjectsModal from './ProjectsModal'
 
 export default class Projects extends PureComponent {
@@ -17,7 +17,8 @@ export default class Projects extends PureComponent {
             description:'',
             repoURL:'',
             liveURL:''
-        }
+        },
+        showModal:true
     }
 
     fetchGet=async(url, id)=>{
@@ -27,7 +28,22 @@ export default class Projects extends PureComponent {
         console.log(result[0].projectList)
     }
 
-    fetchPost=async(url, id)=>{
+    fetchPost=async(url, id, newObj)=>{
+        let response = await fetch(url+`/${id}/projects`, {
+            method:'POST',
+            body:JSON.stringify(newObj),
+            headers: new Headers({
+                "content-type" : "application/json"
+            })
+        })
+        let result = await response.json()
+        console.log(result)
+        this.fetchGet(url, id)
+    }
+
+    createProject = ()=>{
+        this.fetchPost(this.url, this.props.id, this.state.project)
+        this.toggleModal()
     }
 
     showDesc=(index)=>{
@@ -53,6 +69,10 @@ export default class Projects extends PureComponent {
         this.setState({project: newProject})
     }
 
+    toggleModal=()=>{
+        this.setState({showModal: !this.state.showModal})
+    }
+
     componentDidMount(){
         this.fetchGet(this.url, this.props.id)
     }
@@ -66,62 +86,58 @@ export default class Projects extends PureComponent {
                 <ProjectsModal
                 projectState={this.state.project}
                 fillUp={this.fillUp}
+                modalState={this.state.showModal}
+                toggleModal={this.toggleModal}
+                addProject={this.createProject}
                 />
                 <Container>
                     <header>
                         <h2>Personal Projects</h2>
-                        <button><i className="fas fa-plus"></i>Add Project</button>
+                        <button onClick={()=>this.toggleModal()}><i className="fas fa-plus"></i>Add Project</button>
                     </header>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                            <th>#</th>
-                            <th>Project Name</th>
-                            <th>Created</th>
-                            <th>Updated</th>
-                            <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.list.map((project, index)=>{
-                                let modifiedDate,modifiedTime;
-                                if(project.modifiedAt){
-                                    modifiedDate=project.modifiedAt.substring(0, 10)
-                                    modifiedTime=project.modifiedAt.substring(11, 19)
-                                }
-                                return(
-                                    <>
-                                        <tr key={project.id}>
-                                            <td>{(index +1)}</td>
-                                            <td>{project.name}</td>
-                                            <td>
-                                                <p>Date: {project.createdAt.substring(0, 10)}</p>
-                                                <p>Time: {project.createdAt.substring(11, 19)}</p>
-                                            </td>
-                                            <td>
-                                                <p>Date: {modifiedDate}</p>
-                                                <p>Time: {modifiedTime}</p>
-                                            </td>
-                                            <td><button onClick={()=>this.showDesc(index)}>Show</button></td>
-                                        </tr>
-                                        <div 
-                                        className='description'
-                                        style={{
-                                            display: this.state.showDescList.includes(index)?'block':'none',
-                                            maxHeight: this.state.showDesc? '': '0px'
-                                        }}
-                                        >
-                                            <button onClick={()=>this.closeDesc(index)}>x</button>
-                                            <p><span>Description : </span>{project.description}</p>
-                                            <p><span>Project Github URL : </span>{project.repoURL}</p>
-                                            <p><span>Project Live URL : </span>{project.liveURL}</p>
-
-                                        </div>
-                                    </>
-                                )
-                            })}
-                        </tbody>
-                    </Table>
+                    <Row className='headers'>
+                        <Col xs={1}>#</Col>
+                        <Col xs={3}>Project Name</Col>
+                        <Col xs={3}>Created</Col>
+                        <Col xs={3}>Updated</Col>
+                        <Col xs={2}></Col>
+                    </Row>
+                    {this.state.list.map((project, index)=>{
+                        let modifiedDate,modifiedTime;
+                        if(project.modifiedAt){
+                            modifiedDate=project.modifiedAt.substring(0, 10)
+                            modifiedTime=project.modifiedAt.substring(11, 19)
+                        }
+                        return(
+                            <>
+                                <Row className='project'>
+                                    <Col xs={1}>{index}</Col>
+                                    <Col xs={3}>{project.name}</Col>
+                                    <Col xs={3}>
+                                        <p>Date: {project.createdAt.substring(0, 10)}</p>
+                                        <p>Time: {project.createdAt.substring(11, 19)}</p>
+                                    </Col>
+                                    <Col xs={3}>
+                                        <p>Date: {modifiedDate}</p>
+                                        <p>Time: {modifiedTime}</p>
+                                    </Col>
+                                    <Col xs={2}><button onClick={()=>this.showDesc(index)}>Show</button></Col>
+                                </Row>
+                                <Row 
+                                className='project-info'
+                                style={{
+                                    display: this.state.showDescList.includes(index)?'block':'none',
+                                    height: this.state.showDesc.includes(index)? '': '0px'
+                                }}
+                                >
+                                    <button onClick={()=>this.closeDesc(index)}>x</button>
+                                    <p><span>Description : </span>{project.description}</p>
+                                    <p><span>Project Github URL : </span>{project.repoURL}</p>
+                                    <p><span>Project Live URL : </span>{project.liveURL}</p>
+                                </Row>
+                            </>
+                        )
+                    })}
                 </Container>
             </Row>
         )

@@ -1,12 +1,20 @@
 import React, { PureComponent } from 'react'
 import {Modal, Button, Form} from 'react-bootstrap'
+import './Home_SubComponents_Styles/ProjectModal.scss'
 
 export default class ProjectsModal extends PureComponent {
+
+    toggleModal=()=>{this.props.toggleModal()}
+
     render() {
-        let {projectState, fillUp}=this.props
+        let {projectState, fillUp, modalState, addProject}=this.props
         return (
-            <Modal.Dialog>
-                <Modal.Header closeButton>
+            <Modal.Dialog
+            style={{
+                marginTop: modalState?'-100vh': ''
+            }}
+            >
+                <Modal.Header closeButton onClick={()=>this.toggleModal()}>
                     <Modal.Title>Add Project</Modal.Title>
                 </Modal.Header>
 
@@ -59,8 +67,8 @@ export default class ProjectsModal extends PureComponent {
                 </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" type="submit">
-                        Submit
+                    <Button variant="primary" type="button" onClick={addProject}>
+                        Add
                     </Button>
                 </Modal.Footer>
             </Modal.Dialog>
