@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import './Home_SubComponents_Styles/Project.scss'
 import {Row, Container, Col} from 'react-bootstrap'
 import ProjectsModal from './ProjectsModal'
+import Reviews from './Reviews'
 
 export default class Projects extends PureComponent {
     // url=process.env.URL_STUDENTS
@@ -10,7 +11,6 @@ export default class Projects extends PureComponent {
 
     state={
         list:[],
-        showDesc: [],
         showDescList:[],
         project:{
             name:'',
@@ -48,18 +48,13 @@ export default class Projects extends PureComponent {
 
     showDesc=(index)=>{
         this.setState({showDescList: [...this.state.showDescList, index]})
-        // setTimeout(()=>{
-        //     this.setState({showDesc: [...this.state.showDesc, index]})
-        // }, 500)
+        
     }
 
     closeDesc=(index)=>{
-        // let filtered = this.state.showDescList.filter(descBox=> descBox !== index)
         let close= this.state.showDescList.filter(descBox=> descBox !== index)
         this.setState({showDescList: close})
-        // setTimeout(()=>{
-        //     this.setState({showDescList: filtered})
-        // }, 500)
+        
     }
 
     fillUp=(e)=>{
@@ -126,7 +121,6 @@ export default class Projects extends PureComponent {
                                 <Row 
                                 className='project-info'
                                 style={{
-                                    // display: this.state.showDescList.includes(index)?'block':'none',
                                     height: this.state.showDescList.includes(index)? '': '0px'
                                 }}
                                 >
@@ -137,6 +131,7 @@ export default class Projects extends PureComponent {
                                         <p><span>Project Live URL : </span>{project.liveURL}</p>
                                     </div>
                                 </Row>
+                                <Reviews id={project.id}/>
                             </>
                         )
                     })}
